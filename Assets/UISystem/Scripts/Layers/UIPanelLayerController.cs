@@ -11,7 +11,6 @@ namespace GB_UISystem {
 
         void Awake() {
             LoadScreenControllers(PANEL_PREFABS_PATH);
-            // ShowScreen<TestScreenImage>();
         }
 
         void Update() {

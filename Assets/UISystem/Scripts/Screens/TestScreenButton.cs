@@ -7,22 +7,13 @@ using UnityEngine;
 
 public class TestScreenButton : AUIScreenController {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	internal override void Show() {
-		print("Shows Button");
-		gameObject.SetActive(true);
+		print("Show Button");
+		_transitionIn.Animate(transform, () => {gameObject.SetActive(true);});
 	}
 
 	internal override void Hide() {
-		gameObject.SetActive(false);
+		print("Hide Button");
+		_transitionIn.Animate(transform, () => {gameObject.SetActive(false);});
 	}
 }

@@ -6,15 +6,17 @@ using UnityEngine;
 
 namespace GB_UISystem {
     public abstract class AUILayerController : MonoBehaviour {
-        protected AUIScreenController[] _screensLibrary;
-        protected List<AUIScreenController> _existingScreens = new List<AUIScreenController>();
-        /// <summary>
-        /// References from library to existing screen
-        /// </summary>
-        protected Dictionary<AUILayerController, AUILayerController> _screenTypesLibrary = new Dictionary<AUILayerController, AUILayerController>();
+        public static event Action<AUIScreenController> ScreenRegistred;
+        
+        AUIScreenController[] _screensLibrary;
+        List<AUIScreenController> _existingScreens = new List<AUIScreenController>();
 
         internal abstract void ShowScreen<T>() where T : AUIScreenController;
         internal abstract void HideScreen<T>() where T : AUIScreenController;
+
+        protected void LoadScreenControllers(string path) {
+            _screensLibrary = Resources.LoadAll<AUIScreenController>(path);
+        }
 
         protected AUIScreenController GetScreen<T>() where T : AUIScreenController {
             return CheckExistence<T>()
@@ -22,24 +24,21 @@ namespace GB_UISystem {
                        : InstantiateScreen<T>();
         }
 
-        protected bool CheckExistence<T>() where T : AUIScreenController {
+        bool CheckExistence<T>() where T : AUIScreenController {
             return _existingScreens.Any(x => x.GetType() == typeof(T));
         }
 
-        protected AUIScreenController InstantiateScreen<T>() where T : AUIScreenController {
+        AUIScreenController InstantiateScreen<T>() where T : AUIScreenController {
             var screenToCreate = LoadScreenFromLibrary<T>();
             if (CheckExistence<T>()) {
                 throw new Exception($"[{name}] You tried to instantiate {typeof(T)} but there is already one.");
             }
 
-            var createdScreen = Instantiate(screenToCreate, transform);   
+            var createdScreen = Instantiate(screenToCreate, transform);
             createdScreen.gameObject.SetActive(false);
+            ScreenRegistred?.Invoke(createdScreen);
             _existingScreens.Add(createdScreen);
             return createdScreen;
-        }
-
-        protected void LoadScreenControllers(string path) {
-            _screensLibrary = Resources.LoadAll<AUIScreenController>(path);
         }
 
         T LoadScreenFromLibrary<T>() where T : AUIScreenController {

@@ -7,23 +7,13 @@ using UnityEngine;
 
 public class TestScreenImage : AUIScreenController {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	internal override void Show() {
-		print("Shows Image");
-		gameObject.SetActive(true);
+		print("Show Image");
+		_transitionIn.Animate(transform, () => {gameObject.SetActive(true);});
 	}
 
 	internal override void Hide() {
 		print("Hide Image");
-		gameObject.SetActive(false);
+		_transitionIn.Animate(transform, () => {gameObject.SetActive(false);});
 	}
 }
