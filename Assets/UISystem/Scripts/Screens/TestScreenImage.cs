@@ -23,6 +23,7 @@ public class TestScreenImage : AUIScreenController {
 	}
 
 	internal override void Hide() {
+		print("Hide Image");
 		gameObject.SetActive(false);
 	}
 }
