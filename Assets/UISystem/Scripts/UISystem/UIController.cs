@@ -14,7 +14,7 @@ namespace Airion.UI {
         
         void Awake() {
             if (_instance != null) {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
 
