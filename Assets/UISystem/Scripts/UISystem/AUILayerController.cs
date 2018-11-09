@@ -24,7 +24,7 @@ namespace Airion.UI {
             GetScreen<T>().Toggle();
         }
 
-        protected UIScreenController GetScreen<T>() where T : UIScreenController {
+        public UIScreenController GetScreen<T>() where T : UIScreenController {
             return CheckExistence<T>()
                        ? _existingScreens.FirstOrDefault(x => x.GetType() == typeof(T))
                        : InstantiateScreen<T>();

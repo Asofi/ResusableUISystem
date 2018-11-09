@@ -30,6 +30,10 @@ namespace Airion.UI {
             }
         }
 
+        public void GetScreen<T>(LayerTypes layer) where T : UIScreenController {
+            GetControllerByType(layer).GetScreen<T>();
+        }
+
         public void Show<T>(LayerTypes layer) where T : UIScreenController {
             GetControllerByType(layer).ShowScreen<T>();
         }
