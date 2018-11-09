@@ -7,10 +7,20 @@ using UnityEngine;
 namespace Airion.UI {
     public class UIController : MonoBehaviour {
 
+        public static UIController Instance => _instance;
+        static UIController _instance;
+        
         AUILayerController[] _layerControllers;
         
         void Awake() {
+            if (_instance != null) {
+                Destroy(gameObject);
+                return;
+            }
+
+            _instance = this;
             _layerControllers = GetComponentsInChildren<AUILayerController>();
+            DontDestroyOnLoad(gameObject);
         }
 
         void Update() {
@@ -30,8 +40,8 @@ namespace Airion.UI {
             }
         }
 
-        public void GetScreen<T>(LayerTypes layer) where T : UIScreenController {
-            GetControllerByType(layer).GetScreen<T>();
+        public UIScreenController GetScreen<T>(LayerTypes layer) where T : UIScreenController {
+            return GetControllerByType(layer).GetScreen<T>();
         }
 
         public void Show<T>(LayerTypes layer) where T : UIScreenController {

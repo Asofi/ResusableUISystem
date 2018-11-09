@@ -50,6 +50,10 @@ namespace Airion.UI {
             _screensLibrary = Resources.LoadAll<UIScreenController>(path);
         }
 
+        void FillExistingScreens() {
+            _existingScreens.AddRange(GetComponentsInChildren<UIScreenController>());
+        }
+
         T LoadScreenFromLibrary<T>() where T : UIScreenController {
             foreach (var screen in _screensLibrary) {
                 if (screen.GetType() == typeof(T))
